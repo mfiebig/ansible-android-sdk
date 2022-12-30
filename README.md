@@ -25,9 +25,9 @@ pip install jsonschema
 Role Variables
 --------------
 
-`android_cmdlinetools_bootstrap_build` : [number] (required) The build number of the `cmdline-tools` package which should be downloaded as part of the bootstrap process. The build numbers can be found here: https://developer.android.com/studio#command-tools
+`android_cmdlinetools_bootstrap_build` : [number] (required) The build number of the `cmdline-tools` package which should be downloaded as part of the bootstrap process. The build numbers can be found [here](https://developer.android.com/studio#command-line-tools-only)
 
-`android_cmdlinetools_bootstrap_checksum` : [string] (required) The checksum associated with the build version of the `cmdline-tools` package that will be used as part of the bootstrap process. The checksums can be found here: https://developer.android.com/studio#command-tools
+`android_cmdlinetools_bootstrap_checksum` : [string] (required) The checksum associated with the build version of the `cmdline-tools` package that will be used as part of the bootstrap process. The checksums can be found [here](https://developer.android.com/studio#command-line-tools-only)
 
 `android_adb_to_path` : [boolean] Indicates if the `adb` binary should be added to the global path (default: `false`).
 
@@ -181,7 +181,7 @@ Example Playbook
   roles:
      - hth-android-sdk
 ```
-    
+
 
 License
 -------
