@@ -118,6 +118,8 @@ Example:
       channel: 0
 ```
 
+`plugdev_users` : [array] Contains the user names who should be added to the `plugdev` group
+
 Dependencies
 ------------
 
@@ -177,7 +179,10 @@ Example Playbook
         - version: "3.22.1"
           channel: 0
         - version: "3.6.4111459"
-          channel: 0  
+          channel: 0
+      plugdev_users:
+        - stevens
+        - tina
   roles:
      - hth-android-sdk
 ```
