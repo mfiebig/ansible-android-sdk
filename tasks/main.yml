@@ -22,7 +22,6 @@
 
 - name: Bootstrap 'cmdline-tools'
   ansible.builtin.import_tasks: bootstrap.yml
-  register: cmdline_tools_bootstrap
   when: not cmdline_tools.stat.exists
 
 
@@ -31,22 +30,18 @@
   ansible.builtin.stat: 
     path: "{{ android_sdk_home }}/cmdline-tools/latest/bin"
   register: cmdline_tools
-  when:
-    - cmdline_tools_bootstrap is defined
-    - cmdline_tools_bootstrap.stat.changed
-  
+
 
 - name: Accept licenses
   ansible.builtin.shell:
     cmd: yes | {{ cmdline_tools.stat.path }}/sdkmanager --licenses
   when:
-    - cmdline_tools_bootstrap is defined
-    - cmdline_tools_bootstrap.stat.changed
+    - cmdline_tools.changed
 
 
 - name: Install requested 'build-tools' 
   ansible.builtin.shell:
-    cmd: "{{ cmdline_tools.stat.path }}/sdkmanager --install \"build-tools;{{ item.version }}\" --channel={{ item.channel }}"
+    cmd: "{{ cmdline_tools.stat.path }}/sdkmanager --install \"build-tools;{{ item.version }}\" --channel={{ item.channel }} | grep -v = || true"
   environment:
     # The remote environment variables are not available to the task
     # and so the environment is supplied here.
@@ -60,7 +55,7 @@
 
 - name: Install requested 'platform-tools' 
   ansible.builtin.shell:
-    cmd: "{{ cmdline_tools.stat.path }}/sdkmanager --install \"platform-tools\" --channel={{ android_requested_sdk.platform_tools.channel }}"
+    cmd: "{{ cmdline_tools.stat.path }}/sdkmanager --install \"platform-tools\" --channel={{ android_requested_sdk.platform_tools.channel }} | grep -v = || true"
   environment:
     # The remote environment variables are not available to the task
     # and so the environment is supplied here.
@@ -72,7 +67,7 @@
 
 - name: Install requested 'platforms' 
   ansible.builtin.shell:
-    cmd: "{{ cmdline_tools.stat.path }}/sdkmanager --install \"platforms;android-{{ item.version }}\" --channel={{ item.channel }}"
+    cmd: "{{ cmdline_tools.stat.path }}/sdkmanager --install \"platforms;android-{{ item.version }}\" --channel={{ item.channel }} | grep -v = || true"
   environment:
     # The remote environment variables are not available to the task
     # and so the environment is supplied here.
@@ -86,7 +81,7 @@
 
 - name: Install requested 'ndk' 
   ansible.builtin.shell:
-    cmd: "{{ cmdline_tools.stat.path }}/sdkmanager --install \"ndk;{{ item.version }}\" --channel={{ item.channel }}"
+    cmd: "{{ cmdline_tools.stat.path }}/sdkmanager --install \"ndk;{{ item.version }}\" --channel={{ item.channel }} | grep -v = || true"
   environment:
     # The remote environment variables are not available to the task
     # and so the environment is supplied here.
@@ -100,7 +95,7 @@
 
 - name: Install requested 'cmake' 
   ansible.builtin.shell:
-    cmd: "{{ cmdline_tools.stat.path }}/sdkmanager --install \"cmake;{{ item.version }}\" --channel={{ item.channel }}"
+    cmd: "{{ cmdline_tools.stat.path }}/sdkmanager --install \"cmake;{{ item.version }}\" --channel={{ item.channel }} | grep -v = || true"
   environment:
     # The remote environment variables are not available to the task
     # and so the environment is supplied here.
@@ -175,16 +170,22 @@
     owner: "root"
     group: "root"
     mode: 0644
+  register: android_rules
 
 
 - name: Reload udev rules
   ansible.builtin.shell:
     cmd: udevadm control --reload
+  when:
+    - android_rules is defined
+    - android_rules.changed is true
 
 
 - name: Add users to plugdev
-  ansible.builtin.shell:
-    cmd: "usermod -aG plugdev {{ user }}"
+  ansible.builtin.user:
+    name: "{{ user }}"
+    append: true
+    groups: plugdev
   loop: "{{ plugdev_users }}"
   loop_control:
     loop_var: user
