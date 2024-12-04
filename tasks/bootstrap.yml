@@ -43,7 +43,7 @@
 
   - name: Download 'cmdline-tools' binary
     ansible.builtin.get_url:
-      url: "https://dl.google.com/android/repository/commandlinetools-linux-{{ android_cmdlinetools_bootstrap_build }}_latest.zip"
+      url: "https://dl.google.com/android/repository/commandlinetools-macos-{{ android_cmdlinetools_bootstrap_build }}_latest.zip"
       dest: "{{ android_sdk_home }}/bootstrap/cmdline-tools-{{ android_cmdlinetools_bootstrap_build }}-bin.zip"
       checksum: "sha256: {{ android_cmdlinetools_bootstrap_checksum }}"
 
