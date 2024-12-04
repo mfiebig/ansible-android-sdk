@@ -41,9 +41,27 @@
       group: "{{ android_install_group }}"
       mode: 0755
 
+  - name: Set download URL based on OS
+    gather_facts: yes
+    tasks:
+      - name: Set download URL for Linux
+        set_fact:
+          download_url: "https://dl.google.com/android/repository/commandlinetools-linux-{{ android_cmdlinetools_bootstrap_build }}_latest.zip"
+        when: ansible_facts['os_family'] == "Linux"
+
+      - name: Set download URL for Windows
+        set_fact:
+          download_url: "https://dl.google.com/android/repository/commandlinetools-win-{{ android_cmdlinetools_bootstrap_build }}_latest.zip"
+        when: ansible_facts['os_family'] == "Windows"
+
+      - name: Set download URL for macOS
+        set_fact:
+          download_url: "https://dl.google.com/android/repository/commandlinetools-mac-{{ android_cmdlinetools_bootstrap_build }}_latest.zip"
+        when: ansible_facts['os_family'] == "Darwin"
+
   - name: Download 'cmdline-tools' binary
     ansible.builtin.get_url:
-      url: "https://dl.google.com/android/repository/commandlinetools-macos-{{ android_cmdlinetools_bootstrap_build }}_latest.zip"
+      url: "{{ download_url }}"
       dest: "{{ android_sdk_home }}/bootstrap/cmdline-tools-{{ android_cmdlinetools_bootstrap_build }}-bin.zip"
       checksum: "sha256: {{ android_cmdlinetools_bootstrap_checksum }}"
 
