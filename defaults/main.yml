@@ -22,3 +22,6 @@ android_emulator_home: "{{ android_user_home }}"
 # Sets the ANDROID_AVD_HOME environment variable.
 # Defines the emulator virtual disk directory. 
 android_avd_home: "$HOME/.android/avd"
+
+android_install_user: "root"
+android_install_group: "root"

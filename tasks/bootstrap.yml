@@ -15,8 +15,8 @@
       state: directory
       modification_time: preserve
       access_time: preserve
-      owner: "root"
-      group: "root"
+      owner: "{{ android_install_user }}"
+      group: "{{ android_install_group }}"
       mode: 0755
 
 
@@ -26,8 +26,8 @@
       state: directory
       modification_time: preserve
       access_time: preserve
-      owner: "root"
-      group: "root"
+      owner: "{{ android_install_user }}"
+      group: "{{ android_install_group }}"
       mode: 0755
 
 
@@ -37,8 +37,8 @@
       state: directory
       modification_time: preserve
       access_time: preserve
-      owner: "root"
-      group: "root"
+      owner: "{{ android_install_user }}"
+      group: "{{ android_install_group }}"
       mode: 0755
 
   - name: Download 'cmdline-tools' binary
@@ -53,8 +53,8 @@
       remote_src: yes
       src: "{{ android_sdk_home }}/bootstrap/cmdline-tools-{{ android_cmdlinetools_bootstrap_build }}-bin.zip"
       dest: "{{ android_sdk_home }}/bootstrap"
-      owner: "root"
-      group: "root"
+      owner: "{{ android_install_user }}"
+      group: "{{ android_install_group }}"
       mode: 0755
 
 

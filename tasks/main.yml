@@ -113,8 +113,8 @@
     state: directory
     modification_time: preserve
     access_time: preserve
-    owner: "root"
-    group: "root"
+    owner: "{{ android_install_user }}"
+    group: "{{ android_install_group }}"
     mode: 0755
   run_once: true
 
@@ -139,8 +139,8 @@
   ansible.builtin.file:
     src: "{{ platform_tools.stat.path }}/adb"
     dest: "{{ android_sdk_bin }}/adb"
-    owner: "root"
-    group: "root"
+    owner: "{{ android_install_user }}"
+    group: "{{ android_install_group }}"
     mode: 0755
     state: link
   when:
@@ -153,8 +153,8 @@
   ansible.builtin.file:
     src: "{{ cmdline_tools.stat.path }}/sdkmanager"
     dest: "{{ android_sdk_bin }}/sdkmanager"
-    owner: "root"
-    group: "root"
+    owner: "{{ android_install_user }}"
+    group: "{{ android_install_group }}"
     mode: 0755
     state: link
   when:
@@ -167,8 +167,8 @@
   ansible.builtin.copy:
     src: 51-android.rules
     dest: /lib/udev/rules.d/51-android.rules
-    owner: "root"
-    group: "root"
+    owner: "{{ android_install_user }}"
+    group: "{{ android_install_group }}"
     mode: 0644
   register: android_rules
 
