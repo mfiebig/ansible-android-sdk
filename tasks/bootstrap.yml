@@ -83,9 +83,9 @@
       cmd: "{{ android_sdk_home }}/bootstrap/cmdline-tools/bin/sdkmanager --sdk_root={{ android_sdk_home }} --install \"cmdline-tools;latest\""
 
 
-  always:
+  # always:
 
-    - name: Cleanup downloaded Gradle binary
-      ansible.builtin.file:
-        path: "{{ android_sdk_home }}/bootstrap"
-        state: absent
+  #   - name: Cleanup downloaded Gradle binary
+  #     ansible.builtin.file:
+  #       path: "{{ android_sdk_home }}/bootstrap"
+  #       state: absent
