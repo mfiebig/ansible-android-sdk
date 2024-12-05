@@ -80,8 +80,7 @@
 
   - name: Update 'cmdline-tools' to latest version 
     ansible.builtin.shell:
-      cmd: "{{ android_sdk_home }}/bootstrap/cmdline-tools/bin/sdkmanager --sdk_root={{ android_sdk_home }} --install \"cmdline-tools;latest\""
-
+      cmd: "{{ android_sdk_home }}/bootstrap/cmdline-tools/bin/sdkmanager --sdk_root={{ android_sdk_home }} --install \"cmdline-tools;latest\" {% if proxy_env is defined and proxy_env %} --proxy=http --proxy_host={{ proxy_env.http_proxy_host }} --proxy_port={{ proxy_env.http_proxy_port }} {% endif %}"
 
   # always:
 
