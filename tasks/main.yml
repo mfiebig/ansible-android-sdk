@@ -116,7 +116,6 @@
     owner: "{{ android_install_user }}"
     group: "{{ android_install_group }}"
     mode: 0755
-  run_once: true
 
 
 - name: Add 'android_sdk_bin' to path
@@ -126,7 +125,6 @@
     line: "export PATH={{ android_sdk_bin }}:$PATH"
     create: yes
     mode: 0644
-  run_once: true
 
 
 - name: Stat 'platform-tools' directory 
@@ -171,6 +169,8 @@
     group: "{{ android_install_group }}"
     mode: 0644
   register: android_rules
+  when:
+    - android_install_udev_rules is true
 
 
 - name: Reload udev rules

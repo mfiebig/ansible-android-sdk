@@ -25,3 +25,5 @@ android_avd_home: "$HOME/.android/avd"
 
 android_install_user: "root"
 android_install_group: "root"
+
+android_install_udev_rules: true
