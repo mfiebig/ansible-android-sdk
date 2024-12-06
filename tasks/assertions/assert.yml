@@ -87,3 +87,4 @@
     engine: ansible.utils.jsonschema
   when:
   - android_requested_sdk is defined
+  - android_requested_sdk.skip_assertions != true
